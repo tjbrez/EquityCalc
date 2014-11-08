@@ -1,6 +1,9 @@
 {
   "name": "equity-calc",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "authors": "TJ Breslin",
+  "description": "compensation package calculator designed for startup companies and prospective employees.",
+  "license": "MIT",
   "dependencies": {
     "angular": "~1.2.0",
     "json3": "~3.3.1",
