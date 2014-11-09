@@ -9,7 +9,7 @@
     "gzippo": "^0.2.0",
     "imagemin-optipng": "^4.0.0",
     "morgan": "^1.5.0",
-    "compass": "^1.0.1",
+    "compass": "^0.1.0",
     "imagemin": "^1.0.5",
     "jshint": "^2.5.10"
 
