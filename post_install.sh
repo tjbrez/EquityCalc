@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Running post install...
+./node_module/bower/bin/bower install
