@@ -15,7 +15,8 @@
     "angular-animate": "~1.2.0",
     "angular-touch": "~1.2.0",
     "angular-route": "~1.2.0",
-    "ionrangeslider": "~2.0.0"
+    "ionrangeslider": "~2.0.0",
+    "jquery": "^2.1.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",
