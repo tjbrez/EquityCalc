@@ -12,8 +12,7 @@
     "compass": "^0.1.0",
     "imagemin": "^1.0.5",
     "jshint": "^2.5.10",
-    "jshint-stylish": "^0.2.0",
-    "ion.rangeslider": "^2.0.0"
+    "jshint-stylish": "^0.2.0"
 
 },
   "devDependencies": {
