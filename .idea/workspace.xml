@@ -26,27 +26,27 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="25.166666" vertical-offset="754" max-vertical-offset="1590">
-              <caret line="10" column="92" selection-start-line="10" selection-start-column="92" selection-end-line="10" selection-end-column="92" />
+            <state vertical-scroll-proportion="-28.75" vertical-offset="0" max-vertical-offset="1590">
+              <caret line="46" column="44" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="main.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.875" vertical-offset="0" max-vertical-offset="1020">
+            <state vertical-scroll-proportion="0.6279904" vertical-offset="0" max-vertical-offset="1020">
               <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="web.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.10309278" vertical-offset="0" max-vertical-offset="873">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
               <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
               <folding />
             </state>
@@ -353,26 +353,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/lib/ionrangeslider/bower.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="873">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.053066038" vertical-offset="0" max-vertical-offset="848">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="5" selection-end-column="93" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/lib/ionrangeslider/css/ion.rangeSlider.skinFlat.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="1425">
-          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -435,11 +419,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/lib/ionrangeSliderV2/img/sprite-skin-flat.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/styles/main.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.142857" vertical-offset="0" max-vertical-offset="1530">
@@ -464,26 +443,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.875" vertical-offset="0" max-vertical-offset="1020">
-          <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/scripts/controllers/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2775">
           <caret line="172" column="43" selection-start-line="172" selection-start-column="34" selection-end-line="172" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="25.166666" vertical-offset="754" max-vertical-offset="1590">
-          <caret line="10" column="92" selection-start-line="10" selection-start-column="92" selection-end-line="10" selection-end-column="92" />
           <folding />
         </state>
       </provider>
@@ -530,8 +493,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10309278" vertical-offset="0" max-vertical-offset="873">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
           <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.75" vertical-offset="0" max-vertical-offset="1590">
+          <caret line="46" column="44" selection-start-line="46" selection-start-column="44" selection-end-line="46" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6279904" vertical-offset="0" max-vertical-offset="1020">
+          <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
           <folding />
         </state>
       </provider>
