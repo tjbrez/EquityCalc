@@ -12,7 +12,8 @@
     "compass": "^0.1.0",
     "imagemin": "^1.0.5",
     "jshint": "^2.5.10",
-    "jshint-stylish": "^0.2.0"
+    "jshint-stylish": "^0.2.0",
+    "bower": "^1.3.12"
 
 },
   "devDependencies": {
