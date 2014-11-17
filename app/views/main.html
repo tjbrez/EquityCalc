@@ -9,7 +9,21 @@
     <div class="row">
         <div class="col-md-6">
             <div class="well">
-                <h3 class="text-muted">Employee</h3><br/>
+                <h3 class="text-muted">Job Position</h3><br/>
+
+
+                <div class="dropdown">
+                    <b>Location</b> <br/>
+                    <button class="btn btn-default dropdown-toggle" type="button" id="locationDropdown" data-toggle="dropdown">
+                        {{empLocation}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="rolesDropdown">
+                        <li ng-repeat="empLocation in empLocations" role="presentation">
+                            <a role="menuitem" tabindex="-1" ng-click="setLocation(empLocation)" >{{empLocation}}</a>
+                        </li>
+                    </ul>
+                </div><br />
 
                 <div class="dropdown">
                     <b>Role</b> <br/>
@@ -24,9 +38,24 @@
                     </ul>
                 </div><br />
 
+                <!--
+                <div class="dropdown">
+                    <b>Market</b> <br/>
+                    <button class="btn btn-default dropdown-toggle" type="button" id="marketsDropdown" data-toggle="dropdown">
+                        {{market}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="marketsDropdown">
+                        <li ng-repeat="market in markets" role="presentation">
+                            <a role="menuitem" tabindex="-1" ng-click="setMarket(market)" >{{market}}</a>
+                        </li>
+                    </ul>
+                </div><br />
+                -->
+
                 <div class="dropdown">
                     <b>Compensation Preference</b> <br/>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="rolesDropdown" data-toggle="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="preferenceDropdown" data-toggle="dropdown">
                         {{empPreference}}
                         <span class="caret"></span>
                     </button>
@@ -37,8 +66,8 @@
                     </ul>
                 </div><br />
 
-                <b>Experience</b> <input type="text" id="experience_slider" hidden="true" /><br />
-                <b>Responsibility</b> <input type="text" id="responsibility_slider" hidden="true" />
+                <!-- <b>Experience</b> <input type="text" id="experience_slider" hidden="true" /><br />
+                <b>Responsibility</b> <input type="text" id="responsibility_slider" hidden="true" /> -->
 
             </div>
         </div>
@@ -49,7 +78,8 @@
             <div class="well">
                 <h3 class="text-muted">Company</h3><br/>
 
-                <b>Valuation</b> <input type="text" id="valuation_slider" /><br/>
+                <b> Current Valuation</b> <input type="text" id="valuation_slider" /><br/>
+                <b> Projected 5 Year Valuation</b> <input type="text" id="projected_valuation_slider" /><br/>
                 <b>Employee Count</b> <input type="text" id="emp_count_slider" /><br/>
 
             </div>
@@ -58,23 +88,22 @@
     </div>
 
 
-    <div id="additionalInputSection">
+    <div class="additionalIpnutContainer" id="additionalInputSection">
         <div class="well">
-            <h3 class="text-muted">Default Input Values</h3><br/>
-            <form class="form-inline" role="form">
-                {{empRole}} market salary is <input class="form-control" type="text" ng-model="empRoleMarketSalary" ><br/>
-                Startup salary multiplier is <input class="form-control" type="text" ng-model="startupSalaryMultiplier" ><br/>
-                Salary preference change is <input class="form-control" type="text" ng-model="empPreferenceSalBonus" ><br/>
-                Salary experience multiplier is <input class="form-control" type="text" ng-model="empExperienceSalMultiplier" ><br/>
-                Salary responsibility multiplier is <input class="form-control" type="text" ng-model="empResponsibilitySalMultiplier" ><br/>
-                <br/>
-                {{empRole}} base equity is <input class="form-control" type="text" ng-model="startupEquityBase" ><br/>
-                Equity preference multiplier is <input class="form-control" type="text" ng-model="empPreferenceEquityMultiplier" ><br/>
-                Equity risk layer denominator is <input class="form-control" type="text" ng-model="riskLayerDenominator" ><br/>
-                {{empExperience}} experience equity bonus is <input class="form-control" type="text" ng-model="empExperienceEquityBonus" ><br/>
-                {{empResponsibility}} responsibility equity bonus is <input class="form-control" type="text" ng-model="empResponsibilityEquityBonus" ><br/>
+            <h3 class="text-muted">Default Input Values</h3>
+            <div class="additionalInputHeader">Expand</div>
+            <div class="additionalInputContent">
+                <form class="form-inline" role="form">
+                    {{empRole}} market salary is <input class="form-control" type="text" ng-model="empRoleMarketSalary" ><br/>
+                    Salary preference change is <input class="form-control" type="text" ng-model="empPreferenceSalBonus" ><br/>
+                    <br/>
+                    {{empRole}} base equity is <input class="form-control" type="text" ng-model="startupEquityBase" ><br/>
+                    Equity preference multiplier is <input class="form-control" type="text" ng-model="empPreferenceEquityMultiplier" ><br/>
+                    Equity risk layer denominator is <input class="form-control" type="text" ng-model="riskLayerDenominator" ><br/>
 
-            </form>
+
+                </form>
+            </div>
         </div>
     </div>
 
@@ -82,20 +111,58 @@
     <div id="recommendationSection">
         <div class="well">
             <h3 class="text-primary">Recommendation</h3><br/>
-            <h4>Salary {{empRoleMarketSalary * startupSalaryMultiplier *
-                empExperienceSalMultiplier * empResponsibilitySalMultiplier +
-                empPreferenceSalBonus | currency:"$":0}} and Equity
-                {{((startupEquityBase * empPreferenceEquityMultiplier) / riskLayerDenominator) +
-                empExperienceEquityBonus + empResponsibilityEquityBonus
-                | number:2}}% (valued at approximately {{companyValuation * ((((startupEquityBase * empPreferenceEquityMultiplier) / riskLayerDenominator) +
-                empExperienceEquityBonus + empResponsibilityEquityBonus))*10 | currency:"$":0}})</h4>
+            <h4>Salary {{empRoleSalary +
+                empPreferenceSalBonus * empPreferenceEquityMultiplier | currency:"$":0}} and Equity
+                {{((empRoleEquity * empPreferenceEquityMultiplier) /
+                riskLayerDenominator) | number:2}}% <br/>
+            </h4>
+            <div class="text-muted">
+                    Equity valued at hire: {{companyValuation * ((((empRoleEquity * empPreferenceEquityMultiplier) /
+                riskLayerDenominator)))*10 | currency:"$":0}}<br/>
+                    Equity valued at 5 year mark: {{companyProjectedValuation * 1000 * ((((empRoleEquity *
+                empPreferenceEquityMultiplier) / riskLayerDenominator)))*10 | currency:"$":0}}
+            </div>
         </div>
     </div>
 
 
     <div id="supportingDataSection">
         <div class="well">
-            <h3 class="text-muted">Supporting Data</h3><br/>
+            <h3 class="text-muted">AngelList Data</h3><br/>
+
+
+            <h3>Total Jobs: {{angellistDataTotal}}</h3> <br/>
+            <h3>Load Status: {{angellistDataSatus}}</h3> <br/>
+
+
+            <table class="table table-striped" >
+                <thead>
+                <tr class="info">
+                    <th>Startup</th>
+                    <th>Job Location</th>
+                    <th>Job Title</th>
+                    <th>Salary</th>
+                    <th>Equity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in angellistDataJobsFiltered">
+                    <td>{{item.startup.name}}</td>
+                    <td>
+                        <span ng-repeat="tag in item.tags">
+                            <span ng-if="tag.tag_type == 'LocationTag'">
+                                {{tag.display_name}}
+                            </span>
+                        </span>
+                    </td>
+                    <td>{{item.title}}</td>
+                    <td>{{(item.salary_max + item.salary_min)/2 | number}}</td>
+                    <td>{{((1*item.equity_max) + (1*item.equity_min))/2 | number}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+
 
         </div>
 

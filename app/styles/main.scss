@@ -72,6 +72,17 @@ body {
   }
 }
 
+.additionalInputHeader {
+  color: #004c10;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.additionalInputContent {
+  display: none;
+  padding : 5px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {
