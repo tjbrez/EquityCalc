@@ -3,5 +3,28 @@
         equityCalc is a compensation package calculator designed for startup companies and prospective employees.
         Based on a set of input variables, a salary and equity package will be recommended for a new hire. Relative data
         from current AngelList.com job openings will be used and provided as reference.
+        <br/>
+        -------------------
     </p>
+
+    <br/>
+    The basic formulas are as follows:
+    <br/><br/>
+    Recommended Salary = average salary offer of all applicable Angellist jobs +
+    the preference salary bonus if selected
+    <br/><br/>
+    Recommended Equity = (average equity offer of all applicable Angellist jobs x
+    the preference equity multiplier if selected) / the risk layer
+    <br/><br/>
+    The risk layer is the relative risk the new employee is taking based on the company size.
+    The risk layer default values are: <br/>
+    '1-3' -> 0.8 <br/>
+    '4-8' -> 1 <br/>
+    '9-15' -> 1.5 <br/>
+    '16-29' -> 4 <br/>
+    '30-49' -> 10 <br/>
+    '50-99' -> 20 <br/>
+    '100+'  -> 40 <br/>
+
+
 </div>
