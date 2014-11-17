@@ -11,12 +11,8 @@ angular.module('equityCalcApp')
         this.getAngelListData = function(url) {
 
             var result = $http.jsonp(url)
-                .success(function(data){
-
-                })
-                .error(function (e) {
-
-                });
+                .success(function(data){})
+                .error(function (e) {});
 
             return result;
 

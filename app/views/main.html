@@ -38,21 +38,6 @@
                     </ul>
                 </div><br />
 
-                <!--
-                <div class="dropdown">
-                    <b>Market</b> <br/>
-                    <button class="btn btn-default dropdown-toggle" type="button" id="marketsDropdown" data-toggle="dropdown">
-                        {{market}}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="marketsDropdown">
-                        <li ng-repeat="market in markets" role="presentation">
-                            <a role="menuitem" tabindex="-1" ng-click="setMarket(market)" >{{market}}</a>
-                        </li>
-                    </ul>
-                </div><br />
-                -->
-
                 <div class="dropdown">
                     <b>Compensation Preference</b> <br/>
                     <button class="btn btn-default dropdown-toggle" type="button" id="preferenceDropdown" data-toggle="dropdown">
@@ -66,9 +51,6 @@
                     </ul>
                 </div><br />
 
-                <!-- <b>Experience</b> <input type="text" id="experience_slider" hidden="true" /><br />
-                <b>Responsibility</b> <input type="text" id="responsibility_slider" hidden="true" /> -->
-
             </div>
         </div>
 
@@ -77,11 +59,22 @@
         <div class="col-md-6">
             <div class="well">
                 <h3 class="text-muted">Company</h3><br/>
-
-                <b> Current Valuation</b> <input type="text" id="valuation_slider" /><br/>
-                <b> Projected 5 Year Valuation</b> <input type="text" id="projected_valuation_slider" /><br/>
-                <b>Employee Count</b> <input type="text" id="emp_count_slider" /><br/>
-
+                <form class="form-inline" role="form">
+                    <b> Current Valuation is $</b> <input type="text" class="form-control" ng-model="currentValuation" /><br/><br/>
+                    <b> Projected 5 Year Valuation is $</b> <input type="text" class="form-control" ng-model="projectedValuation"  /><br/><br/>
+                    <div class="dropdown">
+                        <b>Employee Count</b> <br/>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="employeeCountDropdown" data-toggle="dropdown">
+                            {{employeeCount}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="rolesDropdown">
+                            <li ng-repeat="employeeCount in employeeCountList" role="presentation">
+                                <a role="menuitem" tabindex="-1" ng-click="setEmployeeCount(employeeCount)" >{{employeeCount}}</a>
+                            </li>
+                        </ul>
+                    </div><br />
+                </form>
             </div>
         </div>
 
@@ -94,10 +87,10 @@
             <div class="additionalInputHeader">Expand</div>
             <div class="additionalInputContent">
                 <form class="form-inline" role="form">
-                    {{empRole}} market salary is <input class="form-control" type="text" ng-model="empRoleMarketSalary" ><br/>
+                    {{empRole}} market salary is <input class="form-control" type="text" ng-model="empRoleSalary" ><br/>
                     Salary preference change is <input class="form-control" type="text" ng-model="empPreferenceSalBonus" ><br/>
                     <br/>
-                    {{empRole}} base equity is <input class="form-control" type="text" ng-model="startupEquityBase" ><br/>
+                    {{empRole}} base equity is <input class="form-control" type="text" ng-model="empRoleEquity" ><br/>
                     Equity preference multiplier is <input class="form-control" type="text" ng-model="empPreferenceEquityMultiplier" ><br/>
                     Equity risk layer denominator is <input class="form-control" type="text" ng-model="riskLayerDenominator" ><br/>
 
@@ -110,17 +103,18 @@
 
     <div id="recommendationSection">
         <div class="well">
-            <h3 class="text-primary">Recommendation</h3><br/>
-            <h4>Salary {{empRoleSalary +
-                empPreferenceSalBonus * empPreferenceEquityMultiplier | currency:"$":0}} and Equity
+            <h3 class="text-primary">
+                Compensation Recommendation <span class="text-warning">{{warningMsg}}</span>
+            </h3><br/>
+            <h4>Salary {{empRoleSalary + empPreferenceSalBonus | currency:"$":0}} and Equity
                 {{((empRoleEquity * empPreferenceEquityMultiplier) /
                 riskLayerDenominator) | number:2}}% <br/>
             </h4>
             <div class="text-muted">
-                    Equity valued at hire: {{companyValuation * ((((empRoleEquity * empPreferenceEquityMultiplier) /
-                riskLayerDenominator)))*10 | currency:"$":0}}<br/>
-                    Equity valued at 5 year mark: {{companyProjectedValuation * 1000 * ((((empRoleEquity *
-                empPreferenceEquityMultiplier) / riskLayerDenominator)))*10 | currency:"$":0}}
+                    Equity value at hire: {{currentValuation * ((((empRoleEquity * empPreferenceEquityMultiplier) /
+                riskLayerDenominator)))/100 | currency:"$":0}}<br/>
+                    Equity value at 5 year mark: {{projectedValuation * ((((empRoleEquity *
+                empPreferenceEquityMultiplier) / riskLayerDenominator)))/100 | currency:"$":0}}
             </div>
         </div>
     </div>
@@ -130,10 +124,7 @@
         <div class="well">
             <h3 class="text-muted">AngelList Data</h3><br/>
 
-
-            <h3>Total Jobs: {{angellistDataTotal}}</h3> <br/>
-            <h3>Load Status: {{angellistDataSatus}}</h3> <br/>
-
+            <h4 class="text-success">{{angellistDataStatus}}</h4> <br/>
 
             <table class="table table-striped" >
                 <thead>

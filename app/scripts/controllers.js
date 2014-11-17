@@ -16,34 +16,26 @@ angular.module('equityCalcApp')
             return route === $location.path();
         };
 
-        var empRolesAndSalaries =
-            {
-                'Software Engineer': 80000,
-                'Designer': 50000,
-                'Business Development Rep': 60000,
-                'Market Research Analyst': 45000,
-                'Content Creator': 40000,
-                'Data Scientist': 70000,
-                'Mobile Developer': 55000
-            };
-
         var empLocationAndLocationID =
         {
             'Atlanta': 1616,
+            'Austin': 1617,
+            'Boston': 1620,
+            'Chicago': 1626,
             'Cleveland': 1630,
+            'Houston': 1645,
+            'London': 1695,
             'Los Angeles': 1653,
             'New York': 1664,
+            'Paris': 1842,
             'San Francisco': 1692,
+            'San Jose': 1693,
+            'Seattle': 1680,
+            'Toronto': 1702,
+            'Vancouver': 1698,
             'Washington, DC':1691
 
         };
-
-        var companyMarket =
-        {
-
-
-        };
-
 
         var empPreferences = [
             'No Preference',
@@ -51,43 +43,53 @@ angular.module('equityCalcApp')
             'Equity'
         ];
 
-        //var empRoles = Object.keys(empRolesAndSalaries).map(function(k) { return k; });
+        var employeeCountList = [
+            '1-3',
+            '4-8',
+            '9-15',
+            '16-30',
+            '30-50',
+            '50-100',
+            '100+'
+
+        ];
+
         var empLocations = Object.keys(empLocationAndLocationID).map(function(k) { return k; });
 
         //DEFAULT VALUES
         $scope.startupSalaryMultiplier = 0.75;
         $scope.empPreferenceSalBonus = 0;
         $scope.empPreferenceEquityMultiplier = 1;
-        //$scope.empExperienceSalMultiplier = 1;
-        //$scope.empRoles = empRoles;
-        //$scope.empRole = empRoles[0];
         $scope.empLocations = empLocations;
         $scope.empLocation = empLocations[0];
-        $scope.empRoleSalary = empRolesAndSalaries[$scope.empRole];
-        $scope.startupEquityBase = $scope.empRoleSalary/100000;
-        $scope.empStartupSalary =  $scope.empRoleSalary * $scope.startupSalaryMultiplier;
         $scope.empPreferences = empPreferences;
         $scope.empPreference = empPreferences[0];
+        $scope.angellistDataJobs = [];
         $scope.angellistDataJobsFiltered = [];
+        $scope.currentValuation = 1000000;
+        $scope.projectedValuation = 10000000;
+        $scope.riskLayerDenominator = 0.8;
+        $scope.employeeCountList = employeeCountList;
+        $scope.employeeCount = employeeCountList[0];
 
 
         //function used for loading angellist data
         var loadAngelListData = function(pEmpLocation){
             var loc = empLocationAndLocationID[pEmpLocation];
             var url = 'https://api.angel.co/1/tags/' + loc + '/jobs' + '?callback=JSON_CALLBACK';
-            $scope.angellistDataSatus = 'Loading Jobs..';
+            $scope.angellistDataStatus = 'Loading Jobs...';
             $scope.empRoles = [];
             $scope.empRole = 'Loading...';
-            $scope.markets = [];
-                $scope.market = 'Loading...';
+            $scope.angellistDataJobs = [];
+
             externalAPIs.getAngelListData(url)
                 .then(function(response){
 
                     $scope.angellistDataLastPage = response.data.last_page;
                     $scope.angellistDataTotal = response.data.total;
                     $scope.angellistDataPage = response.data.page;
-                    $scope.angellistDataJobs = response.data.jobs;
-                    //console.log($scope.angellistDataLastPage);
+                    $scope.angellistDataJobs = $scope.angellistDataJobs.concat(response.data.jobs);
+
 
                     //Loop through additional pages of job data from AngelList API
                     for (var i = 2; i <= $scope.angellistDataLastPage; i++){
@@ -99,13 +101,10 @@ angular.module('equityCalcApp')
                                 $scope.angellistDataJobs = $scope.angellistDataJobs.concat(response.data.jobs);
 
                                 if(response.data.page == response.data.last_page){
-                                    $scope.angellistDataSatus = 'All Jobs Loaded';
+                                    $scope.angellistDataStatus = '';
 
-                                    //$scope.empRoles =
                                     for (var job in $scope.angellistDataJobs){
-                                        //console.log($scope.angellistDataJobs[job].salary_max);
                                         for(var tag in $scope.angellistDataJobs[job].tags){
-                                            //console.log($scope.angellistDataJobs[job].tags[tag].tag_type);
                                             if($scope.angellistDataJobs[job].tags[tag].tag_type == 'RoleTag'){
                                                 //push only unique roles
                                                 if ($scope.empRoles.indexOf($scope.angellistDataJobs[job].tags[tag].display_name) == -1){
@@ -122,13 +121,10 @@ angular.module('equityCalcApp')
                     }
 
                     if ($scope.angellistDataLastPage == 1){
-                        $scope.angellistDataSatus = 'All Jobs Loaded';
+                        $scope.angellistDataStatus = '';
 
-                        //$scope.empRoles =
                         for (var job in $scope.angellistDataJobs){
-                            //console.log($scope.angellistDataJobs[job].salary_max);
                             for(var tag in $scope.angellistDataJobs[job].tags){
-                                //console.log($scope.angellistDataJobs[job].tags[tag].tag_type);
                                 if($scope.angellistDataJobs[job].tags[tag].tag_type == 'RoleTag'){
                                     //push only unique roles
                                     if ($scope.empRoles.indexOf($scope.angellistDataJobs[job].tags[tag].display_name) == -1){
@@ -145,8 +141,6 @@ angular.module('equityCalcApp')
 
         $scope.setJobRole = function(pEmpRole) {
             $scope.empRole = pEmpRole;
-            $scope.empRoleSalary = empRolesAndSalaries[pEmpRole];
-            $scope.startupEquityBase = $scope.empRoleMarketSalary/100000;
 
             //Filter job list for by Role
             $scope.angellistDataJobsFiltered = [];
@@ -172,6 +166,11 @@ angular.module('equityCalcApp')
                 }
             }
             $scope.empRoleSalary = salaryTotal / salaryCount;
+            if(salaryCount < 20){
+                $scope.warningMsg = ' (Warning: Sample size is less than 10 jobs)';
+            } else {
+                $scope.warningMsg = '';
+            }
 
             //Calculate average equity
             var equityCount = 0;
@@ -184,7 +183,6 @@ angular.module('equityCalcApp')
                     $scope.angellistDataJobsFiltered[job].equity_max != null ) {
                     equityTotal = equityTotal + parseFloat($scope.angellistDataJobsFiltered[job].equity_min)
                         + parseFloat($scope.angellistDataJobsFiltered[job].equity_max);
-                    console.log($scope.angellistDataJobsFiltered[job].equity_min + '   ' + $scope.angellistDataJobsFiltered[job].equity_max);
                     equityCount = equityCount + 2;
                 }
             }
@@ -215,193 +213,31 @@ angular.module('equityCalcApp')
             }
         };
 
-        $scope.setMarketSalary = function(pEmpPreference) {
-            $scope.empPreference = pEmpPreference;
-        };
+        $scope.setEmployeeCount = function(pEmployeeCount) {
+            $scope.employeeCount = pEmployeeCount;
 
+            if ( pEmployeeCount == '1-3'){
+                $scope.riskLayerDenominator = 0.8;
+            } else if ( pEmployeeCount == '4-8'){
+                $scope.riskLayerDenominator = 1;
+            } else if ( pEmployeeCount == '9-15'){
+                $scope.riskLayerDenominator = 1.5;
+            } else if ( pEmployeeCount == '16-29'){
+                $scope.riskLayerDenominator = 4;
+            } else if ( pEmployeeCount == '30-49'){
+                $scope.riskLayerDenominator = 10;
+            } else if ( pEmployeeCount == '50-99'){
+                $scope.riskLayerDenominator = 20;
+            } else if ( pEmployeeCount == '100+'){
+                $scope.riskLayerDenominator = 40;
+            }
+        };
 
 
         ////////////////////
         //JQUERY COMPONENTS
         ////////////////////
         $(document).ready(function(){
-
-            var compScope = $('#compSection').scope();
-
-            //Employee Experience Slider
-            $('#experience_slider')
-                .ionRangeSlider({
-                    values: [
-                        'Rookie',
-                        'Skilled',
-                        'Expert'
-                    ],
-                    type: 'single',
-                    from: 1,
-                    step: 1,
-                    grid: true
-                })
-
-                .on('change', function () {
-                    var $this = $(this);
-                    var value = $this.prop('value');
-
-                    compScope.$apply(function(){
-                        compScope.empExperience = value;
-
-                        if (value == 'Rookie'){
-                            compScope.empExperienceSalMultiplier = 1;
-                            compScope.empExperienceEquityBonus= 0;
-                        } else if (value == 'Skilled'){
-                            compScope.empExperienceSalMultiplier = 1.1;
-                            compScope.empExperienceEquityBonus= 0.1;
-                        } else if (value == 'Expert'){
-                            compScope.empExperienceSalMultiplier = 1.2;
-                            compScope.empExperienceEquityBonus= 0.2;
-                        }
-                });
-            });
-
-            //Employee Responsibility Slider
-            $('#responsibility_slider')
-                .ionRangeSlider({
-                    values: [
-                        'N/A',
-                        'Lead',
-                        'Manager',
-                        'Director',
-                        'Executive'
-                    ],
-                    type: 'single',
-                    from: 0,
-                    step: 1,
-                    grid: true
-                })
-
-                .on('change', function () {
-                    var $this = $(this);
-                    var value = $this.prop('value');
-
-                    compScope.$apply(function(){
-                        compScope.empResponsibility = value;
-
-                        if (value == 'N/A'){
-                            compScope.empResponsibilitySalMultiplier = 1;
-                            compScope.empResponsibilityEquityBonus = 0;
-                        } else if (value == 'Lead'){
-                            compScope.empResponsibilitySalMultiplier = 1.1;
-                            compScope.empResponsibilityEquityBonus = 0.1;
-                        } else if (value == 'Manager'){
-                            compScope.empResponsibilitySalMultiplier = 1.2;
-                            compScope.empResponsibilityEquityBonus = 0.2;
-                        } else if (value == 'Director'){
-                            compScope.empResponsibilitySalMultiplier = 1.5;
-                            compScope.empResponsibilityEquityBonus = 0.3;
-                        } else if (value == 'Executive'){
-                            compScope.empResponsibilitySalMultiplier = 2;
-                            compScope.empResponsibilityEquityBonus = 0.4;
-                        }
-                });
-            });
-
-            //Company Valuation Slider
-            $('#valuation_slider')
-                .ionRangeSlider({
-                    min: 0,
-                    max: 20000,
-                    type: 'single',
-                    from: 0,
-                    step: 50,
-                    prefix: '$',
-                    grid: true,
-                    prettify_separator: ',',
-                    prettify: function (num) {
-                        if(num>999) {
-                            num = num/1000 + 'M';
-                        } else {
-                            num = num + 'K';
-                        }
-                        return num;
-                    }
-                })
-
-                .on('change', function () {
-                    var $this = $(this);
-                    var value = $this.prop('value');
-
-                    compScope.$apply(function(){
-                        compScope.companyValuation = value;
-                });
-            });
-
-
-            //Company Projected Valuation Slider
-            $('#projected_valuation_slider')
-                .ionRangeSlider({
-                    min: 1,
-                    max: 500,
-                    type: 'single',
-                    from: 0,
-                    step: 1,
-                    prefix: '$',
-                    grid: true,
-                    prettify_separator: ',',
-                    prettify: function (num) {
-                        num = num + 'M';
-                        return num;
-                    }
-                })
-
-                .on('change', function () {
-                    var $this = $(this);
-                    var value = $this.prop('value');
-
-                    compScope.$apply(function(){
-                        compScope.companyProjectedValuation = value;
-                    });
-                });
-
-
-            //Company Emp Count Slider
-            $('#emp_count_slider')
-                .ionRangeSlider({
-                    min: 1,
-                    max: 100,
-                    type: 'single',
-                    from: 0,
-                    step: 1,
-                    grid: true,
-                    prettify: function (num) {
-                        if(num==100) {
-                            num = num + '+';
-                        }
-                        return num;
-                    }
-                })
-
-                .on('change', function () {
-                    var $this = $(this);
-                    var value = $this.prop('value');
-
-                    compScope.$apply(function(){
-                        compScope.compCount = value;
-
-                        if (value <= 3){
-                            compScope.riskLayerDenominator = 0.6;
-                        } else if (value > 3 && value <= 7){
-                            compScope.riskLayerDenominator = 1;
-                        } else if (value > 7 && value <= 15){
-                            compScope.riskLayerDenominator = 2;
-                        } else if (value > 16 && value <= 30){
-                            compScope.riskLayerDenominator = 6;
-                        } else if (value > 30 && value <= 99){
-                            compScope.riskLayerDenominator = 15;
-                        } else if (value > 99){
-                            compScope.riskLayerDenominator = 30;
-                        }
-                    });
-                });
-
             $('.additionalInputHeader').click(function () {
 
                 var $header = $(this);
@@ -416,9 +252,7 @@ angular.module('equityCalcApp')
                         return $content.is(":visible") ? "Collapse" : "Expand";
                     });
                 });
-
             });
-
         });
 
 
