@@ -48,9 +48,9 @@ angular.module('equityCalcApp')
             '4-8',
             '9-15',
             '16-30',
-            '30-50',
-            '50-100',
-            '100+'
+            '31-50',
+            '51-100',
+            '101+'
 
         ];
 
@@ -222,13 +222,13 @@ angular.module('equityCalcApp')
                 $scope.riskLayerDenominator = 1;
             } else if ( pEmployeeCount == '9-15'){
                 $scope.riskLayerDenominator = 1.5;
-            } else if ( pEmployeeCount == '16-29'){
+            } else if ( pEmployeeCount == '16-30'){
                 $scope.riskLayerDenominator = 4;
-            } else if ( pEmployeeCount == '30-49'){
+            } else if ( pEmployeeCount == '31-50'){
                 $scope.riskLayerDenominator = 10;
-            } else if ( pEmployeeCount == '50-99'){
+            } else if ( pEmployeeCount == '51-100'){
                 $scope.riskLayerDenominator = 20;
-            } else if ( pEmployeeCount == '100+'){
+            } else if ( pEmployeeCount == '101+'){
                 $scope.riskLayerDenominator = 40;
             }
         };
